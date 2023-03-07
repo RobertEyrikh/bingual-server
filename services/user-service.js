@@ -34,7 +34,7 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return {
       ...tokens,
-      user: UserDto,
+      user: userDto,
     };
   }
   async activate(activationLink) {
@@ -60,7 +60,7 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return {
       ...tokens,
-      user: UserDto,
+      user: userDto,
     };
   }
   async logout(refreshToken) {
@@ -83,7 +83,7 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return {
       ...tokens,
-      user: UserDto,
+      user: userDto,
     };
   }
   async getUsers() {
