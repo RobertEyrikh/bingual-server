@@ -5,16 +5,15 @@ const userController = require("../controllers/user-controller");
 const cardController = require("../controllers/card-controller");
 const router = new Router();
 
-router.post(
-  "/registration",
-  validators.registration,
-  userController.registration
-);
+router.post("/registration", validators.registration, userController.registration);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.get("/activate/:link", userController.activate);
 router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
-router.post("/addCard", cardController.addCard)
+
+router.post("/addCard", validators.addCard, authMiddleware, cardController.addCard)
+router.get("/getCardsByUser", authMiddleware, cardController.getCardsByUser);
+router.post("/getCardById", authMiddleware, cardController.getCardById);
 
 module.exports = router;
