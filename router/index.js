@@ -15,5 +15,6 @@ router.get("/users", authMiddleware, userController.getUsers);
 router.post("/addCard", validators.addCard, authMiddleware, cardController.addCard)
 router.get("/getCardsByUser", authMiddleware, cardController.getCardsByUser);
 router.post("/getCardById", authMiddleware, cardController.getCardById);
+router.post("/deleteCard", authMiddleware, cardController.deleteCard);
 
 module.exports = router;

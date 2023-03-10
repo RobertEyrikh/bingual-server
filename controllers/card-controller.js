@@ -33,12 +33,23 @@ class CardController {
   }
   async getCardById(req, res, next) {
     try {
-      console.log(req.body)
       const authorizationHeader = req.headers.authorization;
       const accessToken = authorizationHeader.split(" ")[1];
       const { cardId } = req.body
 
       const cardData = await cardService.getCardById(accessToken, cardId)
+      return res.json(cardData);
+    } catch (e) {
+      next(e);
+    }
+  }
+  async deleteCard(req, res, next) {
+    try {
+      const authorizationHeader = req.headers.authorization;
+      const accessToken = authorizationHeader.split(" ")[1];
+      const { cardId } = req.body
+
+      const cardData = await cardService.deleteCard(accessToken, cardId)
       return res.json(cardData);
     } catch (e) {
       next(e);

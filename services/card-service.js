@@ -46,11 +46,20 @@ class CardService {
   async changeWordInCard() {
 
   }
-  async changeCard() {
+  async addWordInCard() {
 
   }
-  async deleteCard() {
-
+  async deleteCard(accessToken, cardId) {
+    if (!accessToken) {
+      throw ApiError.UnauthorizedError();
+    }
+    const userData = tokenService.validateAccessToken(accessToken);
+    if (!userData) {
+      throw ApiError.UnauthorizedError();
+    }
+    console.log(userData)
+    const deletedCard = await CardModel.deleteOne({_id: cardId})
+    return deletedCard
   }
 }
 module.exports = new CardService();
