@@ -3,14 +3,7 @@ const tokenService = require("./token-service");
 const ApiError = require("../exceptions/api-error");
 
 class CardService {
-  async addCard(accessToken, title, words) {
-    if (!accessToken) {
-      throw ApiError.UnauthorizedError();
-    }
-    const userData = tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      throw ApiError.UnauthorizedError();
-    }
+  async addCard(userData, title, words) {
     const card = await CardModel.create({
       user: userData.id,
       title,
@@ -18,46 +11,29 @@ class CardService {
     })
     return card
   }
-  async getCardsByUser(accessToken) {
-    if (!accessToken) {
-      throw ApiError.UnauthorizedError();
-    }
-    const userData = tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      throw ApiError.UnauthorizedError();
-    }
+  async getCardsByUser(userData) {
     const userCards = await CardModel.find({user: userData.id})
     return userCards
   }
-  async getCardById(accessToken, cardId) {
-    if (!accessToken) {
-      throw ApiError.UnauthorizedError();
-    }
-    const userData = tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      throw ApiError.UnauthorizedError();
-    }
+  async getCardById(cardId) {
     const userCard = await CardModel.findOne({_id: cardId})
     return userCard
   }
-  async deleteWordInCard() {
+  async deleteWordInCard(userData, cardId, wordId) {
 
   }
   async changeWordInCard() {
 
   }
-  async addWordInCard() {
+  async addWordToCard() {
 
   }
-  async deleteCard(accessToken, cardId) {
-    if (!accessToken) {
-      throw ApiError.UnauthorizedError();
-    }
-    const userData = tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      throw ApiError.UnauthorizedError();
-    }
-    console.log(userData)
+  async changeCardTitle(cardId, title) {
+    console.log(title)
+    const userCard = await CardModel.findOneAndUpdate({_id: cardId}, {title})
+    return userCard.title
+  }
+  async deleteCard( cardId) {
     const deletedCard = await CardModel.deleteOne({_id: cardId})
     return deletedCard
   }

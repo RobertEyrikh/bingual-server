@@ -7,6 +7,9 @@ const validators = {
   ],
   addCard: [
     body("title").isLength({min: 1, max: 25}),
+  ],
+  changeCardTitle: [
+    body("title").isLength({min: 1, max: 25}),
   ]
 };
 

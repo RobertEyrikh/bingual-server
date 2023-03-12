@@ -10,11 +10,9 @@ class CardController {
         return next(ApiError.BadRequest("Ошибка валидации", errors.array()));
       }
 
-      const authorizationHeader = req.headers.authorization;
-      const accessToken = authorizationHeader.split(" ")[1];
-
       const { title, words } = req.body;
-      const cardData = await cardService.addCard(accessToken, title, words);
+      const userData = req.user;
+      const cardData = await cardService.addCard(userData, title, words);
       return res.json(cardData);
     } catch (e) {
       next(e);
@@ -22,10 +20,8 @@ class CardController {
   }
   async getCardsByUser(req, res, next) {
     try {
-      const authorizationHeader = req.headers.authorization;
-      const accessToken = authorizationHeader.split(" ")[1];
-
-      const cardsData = await cardService.getCardsByUser(accessToken)
+      const userData = req.user
+      const cardsData = await cardService.getCardsByUser(userData)
       return res.json(cardsData);
     } catch (e) {
       next(e);
@@ -33,11 +29,13 @@ class CardController {
   }
   async getCardById(req, res, next) {
     try {
-      const authorizationHeader = req.headers.authorization;
-      const accessToken = authorizationHeader.split(" ")[1];
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest("Неизвестные данные", errors.array()));
+      }
       const { cardId } = req.body
 
-      const cardData = await cardService.getCardById(accessToken, cardId)
+      const cardData = await cardService.getCardById(cardId)
       return res.json(cardData);
     } catch (e) {
       next(e);
@@ -45,14 +43,31 @@ class CardController {
   }
   async deleteCard(req, res, next) {
     try {
-      const authorizationHeader = req.headers.authorization;
-      const accessToken = authorizationHeader.split(" ")[1];
-      const { cardId } = req.body
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest("Неизвестные данные", errors.array()));
+      }
+      const { cardId } = req.body;
 
-      const cardData = await cardService.deleteCard(accessToken, cardId)
+      const cardData = await cardService.deleteCard(cardId);
       return res.json(cardData);
     } catch (e) {
       next(e);
+    }
+  }
+  async changeCardTitle(req, res, next) {
+    console.log(req.body)
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest("Неизвестные данные", errors.array()));
+      }
+      const { cardId, title } = req.body;
+      console.log(cardId)
+      const cardData = await cardService.changeCardTitle(cardId, title);
+      return res.json(cardData);
+    } catch (e) {
+      next(e)
     }
   }
 }
