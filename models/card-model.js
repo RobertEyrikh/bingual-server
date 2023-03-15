@@ -6,7 +6,7 @@ const CardSchema = new Schema({
   words: [
     {
       word: { type: String, required: true },
-      translate: { type: String, required: true },
+      translation: { type: String, required: true },
     },
   ],
 });

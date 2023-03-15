@@ -17,5 +17,8 @@ router.get("/getCardsByUser", authMiddleware, cardController.getCardsByUser);
 router.post("/getCardById", authMiddleware, cardController.getCardById);
 router.post("/deleteCard", authMiddleware, cardController.deleteCard);
 router.post("/changeCardTitle", validators.changeCardTitle, authMiddleware, cardController.changeCardTitle)
+router.post("/deleteWord", authMiddleware, cardController.deleteWord)
+router.post("/changeWordInCard", validators.changeWordInCard, authMiddleware, cardController.changeWordInCard)
+router.post("/createNewWord", validators.createNewWord, authMiddleware, cardController.createNewWord)
 
 module.exports = router;

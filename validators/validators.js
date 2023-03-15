@@ -10,6 +10,14 @@ const validators = {
   ],
   changeCardTitle: [
     body("title").isLength({min: 1, max: 25}),
+  ],
+  changeWordInCard: [
+    body("word").isLength({min: 1, max: 30}),
+    body("translation").isLength({min: 1, max: 30})
+  ],
+  createNewWord: [
+    body("word").isLength({min: 1, max: 30}),
+    body("translation").isLength({min: 1, max: 30})
   ]
 };
 

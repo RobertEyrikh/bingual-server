@@ -56,20 +56,54 @@ class CardController {
     }
   }
   async changeCardTitle(req, res, next) {
-    console.log(req.body)
     try {
+      console.log(req.body)
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest("Неизвестные данные", errors.array()));
       }
       const { cardId, title } = req.body;
-      console.log(cardId)
       const cardData = await cardService.changeCardTitle(cardId, title);
       return res.json(cardData);
     } catch (e) {
       next(e)
     }
   }
-}
+  async deleteWord(req, res, next) {
+    try {
+      const { cardId, wordId } = req.body
+      const cardData = await cardService.deleteWordInCard(cardId, wordId)
+      return res.json(cardData);
+    } catch (e) {
+      next(e)
+    }
+  }
+  async changeWordInCard(req, res, next) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest("Пустая строка", errors.array()));
+      }
+      const { cardId, wordId, word, translation } = req.body
+      const cardData = await cardService.changeWordInCard(cardId, wordId, word, translation)
+      return res.json(cardData);
+    } catch (e) {
+      next(e)
+    }
+  }
+  async createNewWord(req, res, next) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest("Пустая строка", errors.array()));
+      }
+      const { cardId, word, translation } = req.body 
+      const cardData = await cardService.createNewWord(cardId, word, translation)
+      return res.json(cardData);
+    } catch (e) {
+      next(e)
+    }
+  }
+ }
 
 module.exports = new CardController();
