@@ -20,7 +20,7 @@ class UserService {
 
     await mailService.sendActivationMail(
       email,
-      `${process.env.API_URL}/api/activate/${activationLink}`
+      `http://bingual.eyrikhproductions.ru/api/activate/${activationLink}`
     );
     const user = await UserModel.create({
       email: email,
